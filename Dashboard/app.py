@@ -3,7 +3,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Contoh DataFrame dengan kolom sesuai dengan yang ada di gambar korelasi
 data = {
     'instant': [1, 2, 3],
     'dteday': ['2011-01-01', '2011-01-02', '2011-01-03'],
@@ -23,40 +22,33 @@ data = {
     'cnt': [16, 23, 28]
 }
 
-# Ubah menjadi DataFrame
+
 df = pd.DataFrame(data)
 
-# Menghapus kolom yang tidak perlu (dteday dan instant)
+
 df_cleaned = df.drop(columns=['dteday', 'instant'])
 
-# Mengonversi kolom kategorikal menjadi numerik jika ada
+
 df_encoded = pd.get_dummies(df_cleaned, drop_first=True)
 
-# Menghitung matriks korelasi
 correlation_matrix = df_encoded.corr()
 
-# Judul Dashboard
 st.title("Dashboard Matriks Korelasi Penyewaan Sepeda")
 
-# Menampilkan Matriks Korelasi
 st.subheader("Matriks Korelasi")
-fig, ax = plt.subplots(figsize=(12, 8))  # Ukuran heatmap
+fig, ax = plt.subplots(figsize=(12, 8))
 sns.heatmap(correlation_matrix, annot=True, fmt=".2f", cmap="coolwarm", ax=ax)
 st.pyplot(fig)
 
-# Menampilkan Histogram untuk beberapa kolom
+
 st.subheader("Histogram Data")
 
-# Daftar kolom untuk histogram
 columns_to_plot = ['temp', 'atemp', 'hum', 'casual', 'registered', 'cnt']
 
-# Loop untuk menampilkan histogram untuk setiap kolom
 for column in columns_to_plot:
-    fig, ax = plt.subplots(figsize=(10, 5))  # Ukuran histogram
-    sns.histplot(df[column], bins=10, kde=True, ax=ax)  # Histogram dengan KDE
+    fig, ax = plt.subplots(figsize=(10, 5))  
+    sns.histplot(df[column], bins=10, kde=True, ax=ax) 
     ax.set_title(f'Histogram of {column}')
     ax.set_xlabel(column)
     ax.set_ylabel('Frequency')
     st.pyplot(fig)
-
-# Tambahkan lebih banyak visualisasi atau analisis sesuai kebutuhan
